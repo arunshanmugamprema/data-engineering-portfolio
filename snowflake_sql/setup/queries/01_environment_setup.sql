@@ -1,0 +1,24 @@
+-- snowflake_sql/setup/01_environment_setup.sql
+-- Run each block with Ctrl+Enter
+-- Every file in snowflake_sql/ is version-controlled in Git
+ 
+-- Medallion Architecture schemas
+CREATE DATABASE IF NOT EXISTS ECOMMERCE_DW;
+CREATE SCHEMA IF NOT EXISTS ECOMMERCE_DW.RAW;
+CREATE SCHEMA IF NOT EXISTS ECOMMERCE_DW.STAGING;
+CREATE SCHEMA IF NOT EXISTS ECOMMERCE_DW.MARTS;
+CREATE SCHEMA IF NOT EXISTS ECOMMERCE_DW.SNAPSHOTS;
+ 
+-- Warehouse with mandatory auto-suspend
+CREATE WAREHOUSE IF NOT EXISTS DE_WH
+  WAREHOUSE_SIZE = 'X-SMALL'
+  AUTO_SUSPEND = 60
+  AUTO_RESUME = TRUE
+  INITIALLY_SUSPENDED = TRUE;
+ 
+-- Set session context
+USE ROLE SYSADMIN;
+USE WAREHOUSE DE_WH;
+USE DATABASE ECOMMERCE_DW;
+USE SCHEMA RAW;
+ 
